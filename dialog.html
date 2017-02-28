@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>移动端弹出框组件</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+	<!-- 删除苹果默认的工具栏和菜单栏 -->
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<!-- 设置苹果工具栏颜色 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<!-- 忽略页面中的数字识别为电话 -->
+	<meta name="format-detection" content="telphone=no,email=no"/>
+	<link rel="stylesheet" type="text/css" href="./zepto.dialog.css">
+
+	<style type="text/css">
+		*{
+			padding:0;
+			margin:0;
+		}
+		body{
+			padding:20px;
+
+			font-size: 12px;
+		}
+		.demo button{
+			-webkit-appearance:none;
+			display: block;
+			width: 86%;
+			margin:20px;
+			padding:20px;
+			border-radius:5px;
+			border:none;
+
+			background-color: green;
+
+			color:#fff;
+			text-align: center;
+		}
+	</style>
+</head>
+<body class="demo">
+	<button id="showTips">轻提示</button>
+	<button id="showAnimation">没有传递任何参数，带动画</button>
+	<button id="btn1">没有传递任何参数（需手动关闭）</button>
+	<button id="btn2">弹出一个不带任何按钮，且是警告的框，并且两秒后自动关闭</button>
+	<button id="btn3">弹出一个有确认和取消按钮的成功框，点击按钮直接关闭</button>
+	<button id="btn4">弹出一个有确认按钮的警告框，点击按钮不关闭（需手动关闭）</button>
+	<button id="btn5">弹出一个多组合的按钮框，且按钮样式可定制</button>
+	<button id="btn6">弹出一个确认和删除的框，点击确认加载框两秒自动关闭，点击删除按钮把上一次关闭</button>
+	
+
+
+
+
+	<script type="text/javascript" src="./zepto.js"></script>
+	<script type="text/javascript" src="./zepto.dialog.js"></script>
+
+	<script type="text/javascript">
+
+		var $body = $('body');
+		$body
+		// 轻提示
+		.on('click','#showTips',function(){
+			$.dialog({
+				message: '这是一个轻提示',
+				effect:true
+			});
+		})
+		// 没有传递任何参数，带动画
+		.on('click','#showAnimation',function(){
+			$.dialog({
+				type:'warning',
+				message:'',
+				buttons:[
+					{
+						type: 'red',
+						text: '删除',
+						callback: function(){
+							$.dialog({
+								message: '删除成功',
+								delay:2000
+							});
+						}
+					},
+					{
+						type: 'green',
+						text: '保留'
+					}
+				],
+				effect: true
+			});
+		})
+		// 没有传递任何参数（需手动关闭）
+		.on('click','#btn1',function(){
+			$.dialog({});
+		})
+		// 弹出一个不带任何按钮，且是警告的框，并且两秒后自动关闭
+		.on('click','#btn2',function(){
+			$.dialog({
+				type: 'warning',
+				message:'弹出一个不带任何按钮，且是警告的框，并且两秒后自动关闭',
+				delay:2000
+			});
+		})
+		// 弹出一个有确认和取消按钮的成功框，点击按钮直接关闭
+		.on('click','#btn3',function(){
+			$.dialog({
+				type: 'warning',
+				message:'弹出一个有确认和取消按钮的成功框，点击按钮直接关闭',
+				buttons:[
+					{
+						type: 'red',
+						text: '确认'
+					},
+					{
+						type: 'green',
+						text: '取消'
+					}
+				]
+			});
+		})
+		// 弹出一个有确认按钮的警告框，点击按钮不关闭（需手动关闭）
+		.on('click','#btn4',function(){
+			$.dialog({
+				width:200,
+				type:'warning',
+				buttons:[
+					{
+						type: 'red',
+						text: '确认',
+						callback: function(){
+							return false;
+						}
+					}
+				]
+			});
+		})
+		// 弹出一个多组合的按钮框，且按钮样式可定制
+		.on('click','#btn5',function(){
+			$.dialog({
+				type: 'ok',
+				buttons: [
+					{
+						type:'red'
+					},
+					{
+						type:'green'
+					},
+					{
+					}
+				]
+			});
+		})
+		// 弹出一个确认和删除的框，点击确认加载框两秒自动关闭，点击删除按钮把上一次关闭
+		.on('click','#btn6',function(){
+			var d = $.dialog({
+				type:'ok',
+				buttons:[
+					{
+						type: 'red',
+						text: '删除',
+						callback: function(){
+							$.dialog({
+								message: '删除成功'
+								// delay:2000
+							});
+
+						}
+					},
+					{
+						type: 'green',
+						text: '确认',
+						callback:function(){
+							$.dialog({
+								type: 'waiting',
+								message: '加载中。。。',
+								delay:2000
+							});
+							return false;
+						}
+					}
+				]
+			});
+		})
+		
+	</script>
+</body>
+</html>
